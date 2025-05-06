@@ -1,8 +1,5 @@
 ﻿using Inventory.Services;
-using Inventory.Views;
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Inventory
 {
@@ -13,7 +10,7 @@ namespace Inventory
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<SqliteService>();
             MainPage = new AppShell();
         }
 

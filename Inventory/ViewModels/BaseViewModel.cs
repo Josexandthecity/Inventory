@@ -10,7 +10,14 @@ namespace Inventory.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public ISqliteService DataStore => DependencyService.Get<ISqliteService>();
+
+        bool isVisible = false;
+        public bool IsVisible
+        {
+            get { return isVisible; }
+            set { SetProperty(ref isVisible, value); }
+        }
 
         bool isBusy = false;
         public bool IsBusy

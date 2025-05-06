@@ -7,8 +7,49 @@
              x:Class="Inventory.Views.LoginPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+        <StackLayout VerticalOptions="StartAndExpand" Padding="30" Spacing="20">
+
+            <Image Source="CCL.png"/>
+
+            <Entry Placeholder="Usuario o E-mail"
+                       Keyboard="Email"
+                       BackgroundColor="White"
+                       TextColor="Black" />
+
+            <Entry Placeholder="Contraseña"
+                       IsPassword="True"
+                       BackgroundColor="White"
+                       TextColor="Black" />
+
+            <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="End">
+                <Label Text="Olvidaste tu contraseña?"
+                           FontSize="12"
+                           TextColor="Gray" />
+            </StackLayout>
+
+            <!-- Login Button -->
+            <Button Text="Login"
+                        BackgroundColor="#4285F4"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45" 
+                    Command="{Binding LoginCommand}"/>
+
+
         </StackLayout>
+        <!--<StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+            <Label Text="User" 
+                   FontSize="32"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+            <Entry x:Name="username" Placeholder="User"/>
+            <Label Text="Password" 
+           FontSize="32"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"/>
+            <Entry x:Name="password" Placeholder="Pass" IsPassword="True"/>
+            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+        </StackLayout>-->
     </ContentPage.Content>
 </ContentPage>

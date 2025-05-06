@@ -1,8 +1,5 @@
 ﻿using Inventory.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Inventory.ViewModels
@@ -51,12 +48,12 @@ namespace Inventory.ViewModels
         {
             Item newItem = new Item()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
                 Text = Text,
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.Insert(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

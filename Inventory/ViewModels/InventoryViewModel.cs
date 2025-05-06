@@ -1,4 +1,5 @@
 ﻿using Inventory.Models;
+using Inventory.Services;
 using Inventory.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Inventory.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class InventoryViewModel : BaseViewModel
     {
         private Item _selectedItem;
 
@@ -17,9 +18,10 @@ namespace Inventory.ViewModels
         public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
-        public ItemsViewModel()
+        public InventoryViewModel()
         {
-            Title = "Browse";
+           
+            Title = "Inventario";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
@@ -35,8 +37,8 @@ namespace Inventory.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                var result = await DataStore.GetAll();
+                foreach (var item in result)
                 {
                     Items.Add(item);
                 }
@@ -77,7 +79,6 @@ namespace Inventory.ViewModels
             if (item == null)
                 return;
 
-            // This will push the ItemDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
         }
     }

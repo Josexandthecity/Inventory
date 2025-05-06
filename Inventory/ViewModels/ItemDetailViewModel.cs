@@ -1,7 +1,5 @@
-﻿using Inventory.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Inventory.ViewModels
@@ -9,10 +7,10 @@ namespace Inventory.ViewModels
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class ItemDetailViewModel : BaseViewModel
     {
-        private string itemId;
+        private long itemId;
         private string text;
         private string description;
-        public string Id { get; set; }
+        public long Id { get; set; }
 
         public string Text
         {
@@ -26,7 +24,7 @@ namespace Inventory.ViewModels
             set => SetProperty(ref description, value);
         }
 
-        public string ItemId
+        public long ItemId
         {
             get
             {
@@ -39,11 +37,11 @@ namespace Inventory.ViewModels
             }
         }
 
-        public async void LoadItemId(string itemId)
+        public async void LoadItemId(long itemId)
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
+                var item = await DataStore.GetItem(itemId);
                 Id = item.Id;
                 Text = item.Text;
                 Description = item.Description;

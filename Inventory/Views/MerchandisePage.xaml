@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Inventory.Views.MerchandisePage"
+             xmlns:local="clr-namespace:Inventory.ViewModels" 
+             xmlns:model="clr-namespace:Inventory.Models"  
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <local:MerchandiseViewModel />
+    </ContentPage.BindingContext>
+
+
+    <StackLayout Padding="20" Spacing="15">
+
+        <!-- Barra de búsqueda estilizada -->
+        <Frame CornerRadius="10" Padding="0" HasShadow="True" BackgroundColor="White">
+            <SearchBar x:Name="searchbar"
+                   Placeholder="Buscar en el inventario"
+                   SearchCommand="{Binding SearchItemsCommand}"
+                   SearchCommandParameter="{Binding Source={x:Reference searchbar}, Path=Text}"
+                   TextChanged="SearchTextChanged"
+                   BackgroundColor="Transparent"
+                   TextColor="Black"
+                   PlaceholderColor="#999" />
+        </Frame>
+
+        <!-- Lista con refresco -->
+        <RefreshView x:DataType="local:MerchandiseViewModel"
+                 Command="{Binding SearchItemsCommand}"
+                 CommandParameter="{Binding Source={x:Reference searchbar}, Path=Text}"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+
+            <CollectionView x:Name="ItemsListView"
+                        ItemsSource="{Binding Items}"
+                        SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Card del ítem -->
+                        <Frame 
+                           HasShadow="True"
+                           Padding="15"
+                           Margin="0,10"
+                           BackgroundColor="White"
+                           x:DataType="model:Item">
+
+                            <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="FillAndExpand"
+                                     Spacing="10"
+                                     VerticalOptions="Center">
+
+                                <!-- Nombre del producto -->
+                                <Label Text="{Binding Text}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#4285F4"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+
+                                <!-- Cantidad actual -->
+                                <Label Text="{Binding Quantity}"
+                                   FontSize="16"
+                                   TextColor="#333"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center" />
+
+                                <!-- Stepper -->
+                                <Stepper x:Name="stepper"
+                                     IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:MerchandiseViewModel}}, Path=IsVisible}"
+                                     Value="{Binding Quantity}"
+                                     Minimum="0"
+                                     Increment="1"
+                                     ValueChanged="OnStepperValueChanged"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:MerchandiseViewModel}}, Path=ItemTapped}"
+                                CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+
+</ContentPage>

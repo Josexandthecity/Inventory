@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Inventory.Views.InventoryPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:Inventory.ViewModels"  
+             xmlns:model="clr-namespace:Inventory.Models"  
+             x:Name="BrowseInventoryPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Agregar" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:InventoryViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None"
+                Margin="20">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="15"
+                   Margin="0,10"
+                   HasShadow="false"
+                   CornerRadius="15"
+                   BackgroundColor="White"
+                   x:DataType="model:Item">
+                        <StackLayout>
+                            <Label Text="{Binding Text}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#4285F4"
+                           LineBreakMode="TailTruncation" />
+
+                            <Label Text="{Binding Description}"
+                           FontSize="14"
+                           TextColor="#555"
+                           LineBreakMode="TailTruncation" />
+                        </StackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                        NumberOfTapsRequired="1"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:InventoryViewModel}}, Path=ItemTapped}"		
+                        CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
