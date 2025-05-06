@@ -58,11 +58,13 @@
                                    VerticalOptions="Center" />
 
                                 <!-- Cantidad actual -->
-                                <Label Text="{Binding Quantity}"
-                                   FontSize="16"
-                                   TextColor="#333"
-                                   HorizontalOptions="End"
-                                   VerticalOptions="Center" />
+                                <Label Text="{Binding Source={x:Reference stepper}, Path=Value}"
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ListItemDetailTextStyle}"
+                                       FontSize="16"
+                                       TextColor="#333"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="End"/>
 
                                 <!-- Stepper -->
                                 <Stepper x:Name="stepper"
